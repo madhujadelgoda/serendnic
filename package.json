@@ -4,17 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "build": "tsup",
-  "test": "vitest",
-  "test:coverage": "vitest run --coverage",
-  "lint": "eslint .",
-  "format": "prettier --write ."
-},
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.2.0",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.39.2",
     "prettier": "^3.8.1",
     "tsup": "^8.5.1",
