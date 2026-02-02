@@ -1,5 +1,7 @@
 # serendnic
-
+![CI](https://github.com/madhujadelgoda/serendnic/actions/workflows/ci.yml/badge.svg)
+![npm](https://img.shields.io/npm/v/serendnic)
+![license](https://img.shields.io/npm/l/serendnic)
 > Sri Lankan NIC validation & parsing, done right.
 
 **serendnic** is a lightweight, TypeScript-first utility library for validating and parsing Sri Lankan National Identity Card (NIC) numbers in frontend and backend applications.
