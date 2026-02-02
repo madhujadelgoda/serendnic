@@ -1,5 +1,5 @@
 # serendnic
-![CI](https://github.com/YOUR_USERNAME/serendnic/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/madhujadelgoda/serendnic/actions/workflows/ci.yml/badge.svg)
 ![npm](https://img.shields.io/npm/v/serendnic)
 ![license](https://img.shields.io/npm/l/serendnic)
 
