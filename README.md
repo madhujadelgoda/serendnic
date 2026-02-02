@@ -1,8 +1,4 @@
 # serendnic
-![CI](https://github.com/madhujadelgoda/serendnic/actions/workflows/ci.yml/badge.svg)
-![npm](https://img.shields.io/npm/v/serendnic)
-![license](https://img.shields.io/npm/l/serendnic)
-
 
 > Sri Lankan NIC validation & parsing, done right.
 
