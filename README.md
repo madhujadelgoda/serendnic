@@ -1,25 +1,29 @@
 # serendnic
+
 ![CI](https://github.com/madhujadelgoda/serendnic/actions/workflows/ci.yml/badge.svg)
 ![npm](https://img.shields.io/npm/v/serendnic)
 ![license](https://img.shields.io/npm/l/serendnic)
-> Sri Lankan NIC validation & parsing, done right.
 
-**serendnic** is a lightweight, TypeScript-first utility library for validating and parsing Sri Lankan National Identity Card (NIC) numbers in frontend and backend applications.
+> 🇱🇰 Sri Lankan NIC validation, parsing & explanation — done right.
 
-It supports both legacy and modern NIC formats, extracts date of birth and gender, and provides structured validation errors for safe production use.
+**serendnic** is a TypeScript-first utility library for working with Sri Lankan National Identity Card (NIC) numbers in frontend and backend applications.
+
+It supports **old and new formats**, extracts **DOB & gender**, enforces **official structure rules**, provides **safe APIs**, and includes a powerful **`explainNIC()`** helper for auditing and debugging.
 
 ---
 
 ## Features
 
-- Detect NIC format (old / new)
+- Detect NIC format (OLD / NEW)
 - Strict validation rules
-- Gender & DOB extraction
-- Leap-year aware date handling
+- Leap-year aware DOB calculation
+- Gender extraction
+- Official NEW-NIC `0` digit enforcement
+- Safe parsing API (`parseNICSafe`)
+- Detailed NIC breakdown (`explainNIC`)
 - Structured error codes
-- Safe parsing API (no-throw option)
-- TypeScript-first design
-- Works in Node.js & browsers
+- TypeScript-first
+- Works in Node & browsers
 - Tiny bundle size
 
 ---
@@ -28,8 +32,9 @@ It supports both legacy and modern NIC formats, extracts date of birth and gende
 
 ```bash
 npm install serendnic
+
 ```
-## Usage
+## Basic Usage
 
 ```ts
 import {
@@ -58,7 +63,6 @@ parseNIC("199012345678");
 */
 
 ```
-
 ## Safe Parsing (No Exceptions)
 
 ```ts
@@ -73,36 +77,85 @@ if (!result.ok) {
 }
 
 ```
+## Explain a NIC (Debugging / Auditing)
+
+```ts
+import { explainNIC } from "serendnic";
+
+const info = explainNIC("200125302976");
+
+console.log(info);
+
+```
+- Example output:
+
+```ts
+{
+  nic: "200125302976",
+  format: "NEW",
+  raw: {
+    yearPart: "NEW",
+    dayCode: 253,
+    serial: "2976",
+    suffix: undefined
+  },
+  derived: {
+    birthYear: 2001,
+    isLeapYear: false,
+    gender: "MALE",
+    genderOffsetApplied: false,
+    dayOfYear: 253,
+    dateOfBirth: "2001-09-10",
+    month: 9,
+    day: 10
+  }
+}
+
+```
 
 ## Supported Formats
 
-- New NIC
+- NEW NIC (Post-2016)
 ```bash
-YYYYDDDSSSS
+YYYYDDD0NNNN
 
 ```
+YYYY → birth year
+
+DDD → day-of-year (001–366 male, 501–866 female)
+
+0 → mandatory digit
+
+NNNN → serial
+
+---
 
 - Old NIC
 ```bash
 YYDDDSSSSV | X
 
 ```
+YY → 1900 + year
+
+V/X → suffix
 
 ## Roadmap
 
 Planned future features:
 
-React hook helpers
-
-Zod / Yup schema adapters
-
 CLI validator
+
+React hooks
+
+Zod / Yup adapters
 
 Input masking helpers
 
-Browser demo playground
+Browser playground
 
-Additional Sri Lankan utilities
+NIC encoding utilities
+
+VS Code extension
 
 ## Contributing
 
