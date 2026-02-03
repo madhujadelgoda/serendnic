@@ -3,7 +3,8 @@ import {
   detectNICFormat,
   validateNIC,
   parseNIC,
-  parseNICSafe
+  parseNICSafe,
+  explainNIC 
 } from "../index";
 
 describe("serendnic NIC validation", () => {
@@ -131,4 +132,21 @@ describe("serendnic NIC validation", () => {
       expect(result.data.birthYear).toBe(1990);
     }
   });
+  it("explains NIC structure for old format", () => {
+  const result = explainNIC("973264192V");
+
+  expect(result.format).toBe("OLD");
+  expect(result.raw.yearPart).toBe("97");
+  expect(result.derived.birthYear).toBe(1997);
+  expect(result.derived.dateOfBirth).toBe("1997-11-22");
+});
+
+it("explains NIC structure for new format", () => {
+  const result = explainNIC("200110202575");
+
+  expect(result.format).toBe("NEW");
+  expect(result.raw.yearPart).toBe("2001");
+  expect(result.raw.sDigit).toBe("0");
+  expect(result.raw.serial).toBe("2575");
+});
 });

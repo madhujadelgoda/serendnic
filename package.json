@@ -1,6 +1,6 @@
 {
   "name": "serendnic",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "TypeScript-first library for validating and parsing Sri Lankan NIC numbers.",
   "scripts": {
     "build": "tsup",
