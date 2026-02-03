@@ -38,8 +38,10 @@ function buildNICInfo(value: string, format: "OLD" | "NEW"): NICInfo {
     daySegment = Number(value.slice(4, 7));
     serial = value.slice(7, 11);
   } else {
+    // OLD NIC → always 1900 + YY
     const shortYear = Number(value.slice(0, 2));
-    year = shortYear <= 30 ? 2000 + shortYear : 1900 + shortYear;
+    year = 1900 + shortYear;
+
     daySegment = Number(value.slice(2, 5));
     serial = value.slice(5, 9);
   }

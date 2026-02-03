@@ -7,6 +7,10 @@ import {
 } from "../index";
 
 describe("serendnic NIC validation", () => {
+  // -------------------------------
+  // FORMAT DETECTION
+  // -------------------------------
+
   it("detects new NIC", () => {
     expect(detectNICFormat("199012345678")).toBe("NEW");
   });
@@ -18,6 +22,10 @@ describe("serendnic NIC validation", () => {
   it("trims whitespace before detecting format", () => {
     expect(detectNICFormat(" 199012345678 ")).toBe("NEW");
   });
+
+  // -------------------------------
+  // VALIDATION
+  // -------------------------------
 
   it("validates valid NIC", () => {
     const result = validateNIC("199012345678");
@@ -38,6 +46,7 @@ describe("serendnic NIC validation", () => {
   it("rejects unknown format", () => {
     const result = validateNIC("ABC123");
     expect(result.valid).toBe(false);
+    expect(result.reason).toBe("INVALID_PATTERN");
   });
 
   it("rejects invalid suffix for old NIC", () => {
@@ -51,19 +60,53 @@ describe("serendnic NIC validation", () => {
     expect(result.valid).toBe(true);
   });
 
+  // -------------------------------
+  // PARSING
+  // -------------------------------
+
   it("parses male NIC correctly", () => {
     const info = parseNIC("199012345678");
 
     expect(info.birthYear).toBe(1990);
     expect(info.gender).toBe("MALE");
+    expect(info.isValid).toBe(true);
   });
 
   it("parses female NIC correctly", () => {
+    // 512 => female, day = 12
     const info = parseNIC("199051245678");
 
     expect(info.gender).toBe("FEMALE");
     expect(info.dayOfYear).toBe(12);
   });
+
+  it("parses old NIC year correctly (1998)", () => {
+    const info = parseNIC("985463726V");
+    expect(info.birthYear).toBe(1998);
+  });
+
+  it("parses old NIC year correctly (1968)", () => {
+    const info = parseNIC("683452674V");
+    expect(info.birthYear).toBe(1968);
+  });
+
+  // -------------------------------
+  // DAY-OF-YEAR CONVERSION
+  // -------------------------------
+
+  it("handles April 11 correctly (day 101)", () => {
+    const info = parseNIC("199010145678");
+    expect(info.dateOfBirth).toBe("1990-04-11");
+  });
+
+  it("handles April 16 correctly (day 106)", () => {
+    const info = parseNIC("199010645678");
+    expect(info.dateOfBirth).toBe("1990-04-16");
+  });
+
+  // -------------------------------
+  // ERROR HANDLING
+  // -------------------------------
 
   it("throws on invalid NIC", () => {
     expect(() => parseNIC("123")).toThrow();

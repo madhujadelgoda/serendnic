@@ -19,15 +19,20 @@ export function dayOfYearToDate(year: number, day: number): string {
   ];
 
   let remaining = day;
-  let month = 0;
 
-  while (month < 12 && remaining > daysInMonths[month]) {
-    remaining -= daysInMonths[month];
-    month++;
+  for (let month = 0; month < 12; month++) {
+    const daysInMonth = daysInMonths[month];
+
+    if (remaining <= daysInMonth) {
+      const mm = String(month + 1).padStart(2, "0");
+      const dd = String(remaining).padStart(2, "0");
+
+      return `${year}-${mm}-${dd}`;
+    }
+
+    remaining -= daysInMonth;
   }
 
-  const mm = String(month + 1).padStart(2, "0");
-  const dd = String(remaining).padStart(2, "0");
-
-  return `${year}-${mm}-${dd}`;
+  // If we get here, the day-of-year was invalid
+  throw new Error(`Invalid day-of-year: ${day}`);
 }
